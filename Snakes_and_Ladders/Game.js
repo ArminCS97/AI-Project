@@ -17,18 +17,28 @@ let createSquares = function(x , y , squareWidth , squareHeight , text , color )
     ctx.fillText(text.toString(), x + squareWidth/2, y + squareHeight/2);
 };
 
-let createCircles = function(x , y , squareWidth , squareHeight){
-    let text = 'GO TO ' + 5;
+let createCircles = function(x , y , squareWidth , squareHeight , goodPit){
+    let text;
+    if (goodPit === false){
+        text = 'Down TO ?';
+        ctx.fillStyle = "lightBlack";
+    }
+    else {
+        text = 'Up TO ?';
+        ctx.fillStyle = "yellow";
+    }
+
     ctx.beginPath();
     let r = squareHeight/2;
     let x1 = x + r;
     let y1 = y + r;
 
-    ctx.fillStyle = "yellow";
 
-    ctx.font = (squareHeight/4.5).toString() + "px arial";
-    ctx.arc(x1, y1, r, 0, 2 * Math.PI, false);
-    ctx.fill();
+     ctx.font = (squareHeight/4.5).toString() + "px arial";
+     ctx.arc(x1, y1, r, 0, 2 * Math.PI, false);
+     ctx.fill();
+
+    // putting the text inside the circle
     ctx.beginPath();
     ctx.fillStyle = 'red';
     ctx.fillText(text.toString(), x, y1);
@@ -49,7 +59,7 @@ let generatingRandomColor = function () {
 };
 
 
-function GameSquares (xC , yC , i , j , color , text , squareW , squareH , pit){
+function GameSquares (xC , yC , i , j , color , text , squareW , squareH , pit , goodPit){
     this.x_coordinate = xC;
     this.y_coordinate = yC;
     this.i = i;
@@ -59,12 +69,13 @@ function GameSquares (xC , yC , i , j , color , text , squareW , squareH , pit){
     this.squareWidth = squareW;
     this.squareHeigth = squareH;
     this.pit = pit;
+    this.goodPit = goodPit;
     this.draw = function () {
         if (this.pit === false){
             createSquares(this.x_coordinate , this.y_coordinate , this.squareWidth , this.squareHeigth , this.text , this.color)
         }
         else
-            createCircles(this.x_coordinate , this.y_coordinate , this.squareWidth , this.squareHeigth)
+            createCircles(this.x_coordinate , this.y_coordinate , this.squareWidth , this.squareHeigth , this.goodPit);
     }
 }
 
@@ -85,7 +96,7 @@ let arrayFiller = function (){
     for (let i = 0; i < 10; i++) {
         for (let j = 0; j < 10; j++) {
             let color = generatingRandomColor();
-            gamePlane[i][j] = new GameSquares(x , y , i , j , color , text , squareWidth , squareHeight , false);
+            gamePlane[i][j] = new GameSquares(x , y , i , j , color , text , squareWidth , squareHeight , false , false);
             x += squareWidth;
             text--;
         }
@@ -111,14 +122,14 @@ let convertTextID_to_ij = function( textID ){
 };
 
 let applyTheRules = function(){
-    convertTextID_to_ij(70).pit = true;
-    convertTextID_to_ij(7).pit = true;
-    convertTextID_to_ij(19).pit = true;
-    convertTextID_to_ij(28).pit = true;
-    convertTextID_to_ij(48).pit = true;
-    convertTextID_to_ij(7).pit = true;
-    convertTextID_to_ij(89).pit = true;
-    convertTextID_to_ij(90).pit = true;
+    let squares1 = [71 , 63 , 19 , 28 , 48 , 71 , 81 , 90 , 33 , 54 , 86 , 13 , 4 , 68, 50, 94 , 31];
+    let squares2 = [63 , 19 , 71 , 81 , 54 , 86 , 4];
+    for (let i = 0; i < squares1.length; i++) {
+        convertTextID_to_ij(squares1[i]).pit = true;
+    }
+    for (let i = 0; i < squares2.length; i++) {
+        convertTextID_to_ij(squares2[i]).goodPit = true;
+    }
 };
 
 let arrayRunner = function (){
@@ -132,6 +143,12 @@ let arrayRunner = function (){
         }
     }
 };
+
+// let c2 = document.getElementById("myCanvas2");
+// let ctx2 = c2.getContext("2d");
+// ctx2.fillStyle = 'black';
+// ctx2.fillRect(10 , 10 , 50 , 50);
+
 
 arrayRunner();
 
