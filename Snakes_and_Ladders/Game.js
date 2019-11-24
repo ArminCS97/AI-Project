@@ -107,7 +107,7 @@ let arrayFiller = function (){
 
 // the aim of the function below is to avoid going over the whole array
 // in n^2 time to return i and j saved in each GamePlane obj by checking if textIDs match
-let convertTextID_to_ij2 = function( textID ){
+let convertTextID_to_ij = function( textID ){
     textID = Number(textID);
     let i , j;
     if (textID % 10 === 0){
@@ -120,14 +120,7 @@ let convertTextID_to_ij2 = function( textID ){
     }
     return gamePlane[i][j];
 };
-convertTextID_to_ij = function (textID){
-    for (let i = 0; i < 10; i++) {
-        for (let j = 0; j < 10; j++) {
-            if (gamePlane[i][j].text === textID)
-                return gamePlane[i][j]
-        }
-    }
-};
+
 
 let In = (array , element) => {
     for (let i = 0; i < array.length; i++) {
@@ -144,14 +137,14 @@ let applyTheRules = function(){
     for (let i = 0; i < numberOfPits ;) {
         pit = Math.floor(Math.random() * ( 99 - 2) + 1);
         if (In(pits , pit) === false) {
-            convertTextID_to_ij2(pit).pit = true;
+            convertTextID_to_ij(pit).pit = true;
             pits.push(pit);
             i++;
         }
     } // creating all the pits
 
     for (let i = 0; i < numberOfPits/2 ; i++) {
-        convertTextID_to_ij2(pits[i]).goodPit = true;
+        convertTextID_to_ij(pits[i]).goodPit = true;
     }// making some of the pits good ones
 };
 
@@ -159,10 +152,6 @@ let applyTheRules = function(){
 let arrayRunner = function (){
      arrayFiller();
      applyTheRules();
-
-    // convertTextID_to_ij2(7).pit = true;
-    // convertTextID_to_ij2(8).pit = true;
-    // convertTextID_to_ij2(8).goodPit = true;
 
     for (let i = 0; i < 10; i++) {
         for (let j = 0; j < 10; j++) {
