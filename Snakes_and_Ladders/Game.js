@@ -19,27 +19,27 @@ let createSquares = function(x , y , squareWidth , squareHeight , text , color )
 
 let createCircles = function(x , y , squareWidth , squareHeight , goodPit){
     let text;
-    if (goodPit === false){
-        text = 'Down TO ?';
-        ctx.fillStyle = "lightBlack";
-    }
-    else {
-        text = 'Up TO ?';
-        ctx.fillStyle = "yellow";
-    }
 
-    ctx.beginPath();
     let r = squareHeight/2;
     let x1 = x + r;
     let y1 = y + r;
 
-
-     ctx.font = (squareHeight/4.5).toString() + "px arial";
+     ctx.beginPath();
      ctx.arc(x1, y1, r, 0, 2 * Math.PI, false);
+    if (goodPit === true){
+        text = 'Up To';
+        ctx.fillStyle = 'yellow';
+    }
+    else { // goodPit === false and we have a bad pit by default
+        text = 'Down To';
+        ctx.fillStyle = 'black';
+    }
      ctx.fill();
 
-    // putting the text inside the circle
+
+   // putting the text inside the circle
     ctx.beginPath();
+    ctx.font = (squareHeight/4.5).toString() + "px arial";
     ctx.fillStyle = 'red';
     ctx.fillText(text.toString(), x, y1);
     ctx.fill();
@@ -53,7 +53,7 @@ let generatingRandomColor = function () {
         "LightSeaGreen","LightSkyBlue","LightSlateGray",
         "MediumTurquoise","MediumVioletRed","Navy","OldLace","Olive","OliveDrab","Orange",
         "OrangeRed","Orchid","PaleGoldenRod","PaleGreen",
-        "Pink","Plum","PowderBlue","Purple","Yellow","YellowGreen"];
+        "Pink","Plum","PowderBlue","Purple",];
     let i = Math.floor(Math.random() * colors.length);
     return colors[i];
 };
@@ -107,7 +107,7 @@ let arrayFiller = function (){
 
 // the aim of the function below is to avoid going over the whole array
 // in n^2 time to return i and j saved in each GamePlane obj by checking if textIDs match
-let convertTextID_to_ij = function( textID ){
+let convertTextID_to_ij2 = function( textID ){
     textID = Number(textID);
     let i , j;
     if (textID % 10 === 0){
@@ -120,22 +120,49 @@ let convertTextID_to_ij = function( textID ){
     }
     return gamePlane[i][j];
 };
-
-let applyTheRules = function(){
-    let squares1 = [71 , 63 , 19 , 28 , 48 , 71 , 81 , 90 , 33 , 54 , 86 , 13 , 4 , 68, 50, 94 , 31];
-    let squares2 = [63 , 19 , 71 , 81 , 54 , 86 , 4];
-    for (let i = 0; i < squares1.length; i++) {
-        convertTextID_to_ij(squares1[i]).pit = true;
-    }
-    for (let i = 0; i < squares2.length; i++) {
-        convertTextID_to_ij(squares2[i]).goodPit = true;
+convertTextID_to_ij = function (textID){
+    for (let i = 0; i < 10; i++) {
+        for (let j = 0; j < 10; j++) {
+            if (gamePlane[i][j].text === textID)
+                return gamePlane[i][j]
+        }
     }
 };
+
+let In = (array , element) => {
+    for (let i = 0; i < array.length; i++) {
+        if ( element === array[i])
+            return true;
+    }
+    return false;
+};
+
+let applyTheRules = function(){
+    let pits = [];
+    let pit;
+    let numberOfPits = 22;
+    for (let i = 0; i < numberOfPits ;) {
+        pit = Math.floor(Math.random() * ( 99 - 2) + 1);
+        if (In(pits , pit) === false) {
+            convertTextID_to_ij2(pit).pit = true;
+            pits.push(pit);
+            i++;
+        }
+    } // creating all the pits
+
+    for (let i = 0; i < numberOfPits/2 ; i++) {
+        convertTextID_to_ij2(pits[i]).goodPit = true;
+    }// making some of the pits good ones
+};
+
 
 let arrayRunner = function (){
      arrayFiller();
      applyTheRules();
 
+    // convertTextID_to_ij2(7).pit = true;
+    // convertTextID_to_ij2(8).pit = true;
+    // convertTextID_to_ij2(8).goodPit = true;
 
     for (let i = 0; i < 10; i++) {
         for (let j = 0; j < 10; j++) {
@@ -144,13 +171,11 @@ let arrayRunner = function (){
     }
 };
 
-// let c2 = document.getElementById("myCanvas2");
+arrayRunner();
+//
+// let c2 = document.getElementById("myCanvas");
 // let ctx2 = c2.getContext("2d");
 // ctx2.fillStyle = 'black';
 // ctx2.fillRect(10 , 10 , 50 , 50);
-
-
-arrayRunner();
-
 
 
