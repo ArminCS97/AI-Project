@@ -1,4 +1,3 @@
-// automated version
 
 /*
 Check the size of the display when we chane the the display from laptop to a tv
@@ -32,7 +31,7 @@ let createCircles = function(x , y , squareWidth , squareHeight , goodPit){
     }
     else { // goodPit === false and we have a bad pit by default
         text = 'Down To';
-        ctx.fillStyle = 'black';
+        ctx.fillStyle = 'brown';
     }
      ctx.fill();
 
@@ -40,19 +39,18 @@ let createCircles = function(x , y , squareWidth , squareHeight , goodPit){
    // putting the text inside the circle
     ctx.beginPath();
     ctx.font = (squareHeight/4.5).toString() + "px arial";
-    ctx.fillStyle = 'red';
+    ctx.fillStyle = 'black';
     ctx.fillText(text.toString(), x, y1);
     ctx.fill();
 
 };
 
 let generatingRandomColor = function () {
-    let colors = ["AliceBlue","Aqua", "Blue","BlueViolet","Brown",
+    let colors = ["AliceBlue","Aqua", "Blue","BlueViolet",
         "DarkGray","DarkGreen","Gold","Gray","Green", "LightBlue","LightCoral","LightCyan",
-        "LightGoldenRodYellow","LightGray","LightGrey","LightGreen",
-        "LightSeaGreen","LightSkyBlue","LightSlateGray",
-        "MediumTurquoise","MediumVioletRed","Navy","OldLace","Olive","OliveDrab","Orange",
-        "OrangeRed","Orchid","PaleGoldenRod","PaleGreen",
+        "LightGrey","LightGreen", "LightSeaGreen","LightSkyBlue","LightSlateGray",
+        "MediumTurquoise","MediumVioletRed","Navy","OldLace","Olive","OliveDrab",
+        "Orchid","PaleGoldenRod","PaleGreen","LightSkyBlue",
         "Pink","Plum","PowderBlue","Purple",];
     let i = Math.floor(Math.random() * colors.length);
     return colors[i];
@@ -160,11 +158,11 @@ let arrayRunner = function (){
     }
 };
 
+
 arrayRunner();
-//
-// let c2 = document.getElementById("myCanvas");
-// let ctx2 = c2.getContext("2d");
-// ctx2.fillStyle = 'black';
-// ctx2.fillRect(10 , 10 , 50 , 50);
+
+
+
+
 
 
