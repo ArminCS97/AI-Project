@@ -48,6 +48,15 @@ let drawThePlayer = ( squareID , playerName , currentX , currentY )=>{ // draws 
             player.style.left = toPixelConverter(x_position)
         }
     }
+    alert(square0.goodPit);
+    // if (square0.goodPit === true){
+    //     square0.text = square0.upTo;
+    //     drawThePlayer(square0.text , playerName)
+    // }
+    // if (square0.goodPit === false && square0.pit === true){
+    //     square0.text = square0.downTo;
+    //     drawThePlayer(square0.text , playerName)
+    // }
 };
 
 let i = 0;
@@ -95,4 +104,5 @@ let tosses = function(){
 let playersMover = function (player , Number) { // takes an object of type Player
     player.squareNum += Number  ; // the number of the square to which this player will be transformed
     player.draw();
+
 };

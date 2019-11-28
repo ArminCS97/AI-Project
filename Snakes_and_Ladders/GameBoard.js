@@ -16,7 +16,7 @@ let createSquares = function(x , y , squareWidth , squareHeight , text , color )
     ctx.fillText(text.toString(), x + squareWidth/2, y + squareHeight/2);
 };
 
-let createCircles = function(x , y , squareWidth , squareHeight , goodPit){
+let createCircles = function(x , y , squareWidth , squareHeight , goodPit, downTo , upTo ){
     let text;
 
     let r = squareHeight/2;
@@ -26,11 +26,11 @@ let createCircles = function(x , y , squareWidth , squareHeight , goodPit){
      ctx.beginPath();
      ctx.arc(x1, y1, r, 0, 2 * Math.PI, false);
     if (goodPit === true){
-        text = 'Up To';
+        text = 'To ' + upTo.toString();
         ctx.fillStyle = 'yellow';
     }
     else { // goodPit === false and we have a bad pit by default
-        text = 'Down To';
+        text = 'To ' + downTo.toString();
         ctx.fillStyle = 'brown';
     }
      ctx.fill();
@@ -38,7 +38,7 @@ let createCircles = function(x , y , squareWidth , squareHeight , goodPit){
 
    // putting the text inside the circle
     ctx.beginPath();
-    ctx.font = (squareHeight/4.5).toString() + "px arial";
+    ctx.font = (squareHeight/3.5).toString() + "px arial";
     ctx.fillStyle = 'black';
     ctx.fillText(text.toString(), x, y1);
     ctx.fill();
@@ -68,12 +68,42 @@ function GameSquares (xC , yC , i , j , color , text , squareW , squareH , pit ,
     this.squareHeigth = squareH;
     this.pit = pit;
     this.goodPit = goodPit;
+    this.downTo = this.text - 6;
+    this.upTo = this.text;
+    this.up_or_down = up_or_down1 ;
     this.draw = function () {
         if (this.pit === false){
             createSquares(this.x_coordinate , this.y_coordinate , this.squareWidth , this.squareHeigth , this.text , this.color)
         }
-        else
-            createCircles(this.x_coordinate , this.y_coordinate , this.squareWidth , this.squareHeigth , this.goodPit);
+        else{
+            this.up_or_down();
+            createCircles(this.x_coordinate , this.y_coordinate , this.squareWidth , this.squareHeigth , this.goodPit , this.downTo , this.upTo);
+        }
+    }
+}
+
+function up_or_down1(){
+    if (this.goodPit){
+        if (this.text <= 90 && this.text !== 56 && this.text !== 25){
+            if (this.text % 2 === 0)
+                this.upTo = this.text + 6;
+            else this.upTo = this.text + 7;
+        }
+        if (this.text === 56)
+            this.upTo = this.text + 11;
+        if (this.text === 25)
+            this.upTo = this.text + 14
+    }
+    else{
+        if (this.text <= 10 && this.text !== 34 && this.text !== 87){
+            if (this.text % 2 === 0)
+                this.downTo = this.text - 6;
+            else this.downTo = this.text - 7;
+        }
+        if (this.text === 34)
+            this.downTo = this.text - 11;
+        if (this.text === 87)
+            this.downTo = this.text - 14
     }
 }
 
@@ -133,7 +163,7 @@ let applyTheRules = function(){
     let pit;
     let numberOfPits = 22;
     for (let i = 0; i < numberOfPits ;) {
-        pit = Math.floor(Math.random() * ( 99 - 2) + 1);
+        pit = Math.floor(Math.random() * ( 91 - 11) + 11);
         if (In(pits , pit) === false) {
             convertTextID_to_ij(pit).pit = true;
             pits.push(pit);
