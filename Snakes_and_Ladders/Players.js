@@ -1,45 +1,60 @@
-//let Player = function (xc , yc , player , squareW , squareH, squareNum) {
-let Player = function (squareNum , playerId) {
-    // this.x_coordinate = xc;
-    // this.y_coordinate = yc;
-     this.player = playerId;
-    // this.squareHeight = squareH;
-    // this.squareWidth = squareW;
+let Player = function (squareNum , playerId , currentX , currentY) {
+    this.player = playerId;
     this.squareNum = squareNum;
+    this.current_x = currentX;
+    this.current_y = currentY;
     this.draw = function () {
-        drawThePlayer(this.squareNum , this.player);
-    }
+        drawThePlayer(this.squareNum , this.player , this.current_x , this.current_y);
+    };
+
 };
 
-let drawThePlayer = ( squareID , playerName )=>{ // draws a player on a specific square
+
+let drawThePlayer = ( squareID , playerName , currentX , currentY )=>{ // draws a player on a specific square
     let square0 = convertTextID_to_ij(squareID);
     let squareH = square0.squareHeigth;
     let xc = square0.x_coordinate;
     let yc = square0.y_coordinate;
-    let r = squareH/2;
-    let x1 = xc + r;
-    let y1 = yc + r;
 
     let player = document.getElementById(playerName.toString());
 
-    player.style.height = squareH + 'px';
-    player.style.width = squareH + 'px';
-    player.style.left = xc;
-    player.style.top = yc;
+    player.innerText = playerName.toString();
+    player.style.textAlign = 'center';
+    player.style.fontSize = 'xx-large';
+    player.style.fontWeight = 'bold';
+    player.style.height = squareH / 1.1 + 'px';
+    player.style.width =  squareH / 1.1 + 'px';
 
-    // ctx.beginPath();
-    // ctx.arc(x1, y1, squareH/2.5, 0, 2 * Math.PI, false);
-    // ctx.fillStyle = 'black';
-    // ctx.fill();
-    //
-    // // putting the text inside the circle
-    // ctx.beginPath();
-    // ctx.font = (squareH/3).toString() + "px arial";
-    // ctx.fillStyle = 'red';
-    // ctx.fillText(playerName.toString(), xc + r/2, y1);
-    // ctx.fill();
+    let x_position = currentX;
+    let y_position = currentY;
+
+
+    let id2 = setInterval(myFrame2 , 4);
+    function myFrame2(){
+        if (y_position >= yc)
+            clearInterval(id2);
+        else{
+            y_position++;
+            player.style.top = toPixelConverter(y_position)
+        }
+    }
+
+    let id = setInterval(myFrame , 4);
+    function myFrame() {
+        if ( x_position >= xc)
+            clearInterval(id);
+        else {
+            x_position++;
+            player.style.left = toPixelConverter(x_position)
+        }
+    }
 };
 
+let i = 0;
+
+let toPixelConverter = function ( number ){
+    return (number + 22).toString() + 'px';
+};
 
 
 let showNumber = ()=>{
@@ -50,8 +65,8 @@ let showNumber = ()=>{
 
 let tossMin = 0 , tossMax = 0;
 
-let max = new Player(tossMax , 'Max');
-let min = new Player(tossMin,'Min');
+let max = new Player(tossMax , 'Max' , 0 , 0);
+let min = new Player(tossMin,'Min' , 0 , 0);
 
 let tosses = function(){
     let m = document.getElementById('toss');
@@ -59,47 +74,25 @@ let tosses = function(){
 
     m.innerText = 'Click Here';
     m2.innerText = 'Click Here';
-
-    let toss1 = function () { // toss for Max Player
-        tossMax = showNumber();
-        m.innerText = tossMax.toString();
-        playersMover(max , tossMax)
-    };
-    let toss2 = function(){ // toss for the Min player
-        tossMin = showNumber();
-        m2.innerText = tossMin.toString();
-        playersMover(min , tossMin)
+        let toss1 = function () { // toss for Max Player
+            tossMax = showNumber();
+            m.innerText = tossMax.toString();
+            playersMover(max, tossMax);
     };
 
-    m.addEventListener('click' , toss1 , false);
-    m2.addEventListener("click", toss2 , false);
+        m.addEventListener('click', toss1, false);
+
+        let toss2 = function () { // toss for the Min player
+            tossMin = showNumber();
+            m2.innerText = tossMin.toString();
+            playersMover(min, tossMin);
+        };
+
+        m2.addEventListener("click", toss2, false);
 };
 
 
-
-
-let playersMover = function (player , Number) {
+let playersMover = function (player , Number) { // takes an object of type Player
     player.squareNum += Number  ; // the number of the square to which this player will be transformed
     player.draw();
 };
-
-//tosses();
-
-function myFuncyio(){
-    var elem = document.getElementById("toss2");
-    var pos = 0;
-    var id = setInterval(frame, 5);
-    function frame() {
-        if (pos === 350) {
-            clearInterval(id);
-        } else {
-            pos++;
-            elem.style.top = pos + "px";
-            elem.style.left = pos + "px";
-        }
-    }
-}
-
-
-
-playersMover('Min' , 45);

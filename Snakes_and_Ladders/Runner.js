@@ -1,0 +1,2 @@
+let isMaxTurn = true;
+tosses();
