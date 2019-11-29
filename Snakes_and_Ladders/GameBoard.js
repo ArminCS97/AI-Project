@@ -46,8 +46,8 @@ let createCircles = function(x , y , squareWidth , squareHeight , goodPit, downT
 };
 
 let generatingRandomColor = function () {
-    let colors = ["AliceBlue","Aqua", "Blue","BlueViolet",
-        "DarkGray","DarkGreen","Gold","Gray","Green", "LightBlue","LightCoral","LightCyan",
+    let colors = ["AliceBlue", "Blue","BlueViolet",
+        "DarkGray","DarkGreen","Gray","Green", "LightBlue","LightCoral","LightCyan",
         "LightGrey","LightGreen", "LightSeaGreen","LightSkyBlue","LightSlateGray",
         "MediumTurquoise","MediumVioletRed","Navy","OldLace","Olive","OliveDrab",
         "Orchid","PaleGoldenRod","PaleGreen","LightSkyBlue",
@@ -69,7 +69,7 @@ function GameSquares (xC , yC , i , j , color , text , squareW , squareH , pit ,
     this.pit = pit;
     this.goodPit = goodPit;
     this.downTo = this.text - 6;
-    this.upTo = this.text;
+    this.upTo = this.text + 6;
     this.up_or_down = up_or_down1 ;
     this.draw = function () {
         if (this.pit === false){

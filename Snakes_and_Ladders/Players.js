@@ -28,6 +28,13 @@ let drawThePlayer = ( squareID , playerName , currentX , currentY )=>{ // draws 
     let x_position = currentX;
     let y_position = currentY;
 
+    if (xc === 0)
+        xc = 3;
+
+    if (yc === 0)
+        yc = 3;
+    // the 4 lines of code above helps to solve the problem that would happen
+    // when we wanted to move to squares 10k
 
     let id2 = setInterval(myFrame2 , 4);
     function myFrame2(){
@@ -48,15 +55,6 @@ let drawThePlayer = ( squareID , playerName , currentX , currentY )=>{ // draws 
             player.style.left = toPixelConverter(x_position)
         }
     }
-    alert(square0.goodPit);
-    // if (square0.goodPit === true){
-    //     square0.text = square0.upTo;
-    //     drawThePlayer(square0.text , playerName)
-    // }
-    // if (square0.goodPit === false && square0.pit === true){
-    //     square0.text = square0.downTo;
-    //     drawThePlayer(square0.text , playerName)
-    // }
 };
 
 let i = 0;
@@ -66,11 +64,11 @@ let toPixelConverter = function ( number ){
 };
 
 
-let showNumber = ()=>{
-  let tossNumbers = [1,2,3,4,5,6];
-  let index = Math.floor(Math.random()* 7 );
-  return tossNumbers[index];
-};
+// let showNumber = ()=>{
+//   let tossNumbers = [1,2,3,4,5,6];
+//   let index = Math.floor(Math.random()* 7 );
+//   return tossNumbers[index];
+// };
 
 let tossMin = 0 , tossMax = 0;
 
@@ -104,5 +102,23 @@ let tosses = function(){
 let playersMover = function (player , Number) { // takes an object of type Player
     player.squareNum += Number  ; // the number of the square to which this player will be transformed
     player.draw();
-
+    setTimeout(function players_up_down_bringer1(){
+        players_up_down_bringer(player , Number)
+    }, 3000)
 };
+
+let players_up_down_bringer = function (player , Number){
+    // the codes below are to check if the player must be brought up or down
+    let square = convertTextID_to_ij(player.squareNum); // the square in which the player is
+
+    if ( square.goodPit === true){
+        player.squareNum = square.upTo;
+        player.draw();
+    }
+
+    if ( square.goodPit === false && square.pit === true){
+        player.squareNum = square.downTo;
+        player.draw()
+    }
+};
+
