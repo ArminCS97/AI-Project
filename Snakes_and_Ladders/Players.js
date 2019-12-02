@@ -36,22 +36,22 @@ let drawThePlayer = ( squareID , playerName , currentX , currentY )=>{ // draws 
     // the 4 lines of code above helps to solve the problem that would happen
     // when we wanted to move to squares 10k
 
-    let id2 = setInterval(myFrame2 , 4);
+    let id2 = setInterval(myFrame2 , 1);
     function myFrame2(){
         if (y_position >= yc)
             clearInterval(id2);
         else{
-            y_position++;
+            y_position += 2;
             player.style.top = toPixelConverter(y_position)
         }
     }
 
-    let id = setInterval(myFrame , 4);
+    let id = setInterval(myFrame , 1);
     function myFrame() {
         if ( x_position >= xc)
             clearInterval(id);
         else {
-            x_position++;
+            x_position += 2;
             player.style.left = toPixelConverter(x_position)
         }
     }
