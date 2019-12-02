@@ -1,2 +1,0 @@
-each game has 16 pits out of which 8 are good pits and the other half are bad
-the fact that which squares are going to have pits in them is random
