@@ -57,11 +57,9 @@ let generatingRandomColor = function () {
 };
 
 
-function GameSquares (xC , yC , i , j , color , text , squareW , squareH , pit , goodPit){
+function GameSquares (xC , yC , color , text , squareW , squareH , pit , goodPit){
     this.x_coordinate = xC;
     this.y_coordinate = yC;
-    this.i = i;
-    this.j = j;
     this.color = color;
     this.text = text;
     this.squareWidth = squareW;
@@ -124,7 +122,7 @@ let arrayFiller = function (){
     for (let i = 0; i < 10; i++) {
         for (let j = 0; j < 10; j++) {
             let color = generatingRandomColor();
-            gamePlane[i][j] = new GameSquares(x , y , i , j , color , text , squareWidth , squareHeight , false , false);
+            gamePlane[i][j] = new GameSquares(x , y , color , text , squareWidth , squareHeight , false , false);
             x += squareWidth;
             text--;
         }

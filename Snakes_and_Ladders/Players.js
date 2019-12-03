@@ -1,16 +1,14 @@
-let Player = function (squareNum , playerId , currentX , currentY) {
+let Player = function (squareNum , playerId) {
     this.player = playerId;
     this.squareNum = squareNum;
-    this.current_x = currentX;
-    this.current_y = currentY;
     this.draw = function () {
-        drawThePlayer(this.squareNum , this.player , this.current_x , this.current_y);
+        drawThePlayer(this.squareNum , this.player);
     };
 
 };
 
 
-let drawThePlayer = ( squareID , playerName , currentX , currentY )=>{ // draws a player on a specific square
+let drawThePlayer = ( squareID , playerName )=>{ // draws a player on a specific square
     let square0 = convertTextID_to_ij(squareID);
     let squareH = square0.squareHeigth;
     let xc = square0.x_coordinate;
@@ -25,8 +23,8 @@ let drawThePlayer = ( squareID , playerName , currentX , currentY )=>{ // draws 
     player.style.height = squareH / 1.1 + 'px';
     player.style.width =  squareH / 1.1 + 'px';
 
-    let x_position = currentX;
-    let y_position = currentY;
+    let x_position = 0;
+    let y_position = 0;
 
     if (xc === 0)
         xc = 3;
@@ -57,8 +55,6 @@ let drawThePlayer = ( squareID , playerName , currentX , currentY )=>{ // draws 
     }
 };
 
-let i = 0;
-
 let toPixelConverter = function ( number ){
     return (number + 22).toString() + 'px';
 };
@@ -72,8 +68,8 @@ let toPixelConverter = function ( number ){
 
 let tossMin = 0 , tossMax = 0;
 
-let max = new Player(tossMax , 'Max' , 0 , 0);
-let min = new Player(tossMin,'Min' , 0 , 0);
+let max = new Player(tossMax , 'Max');
+let min = new Player(tossMin,'Min');
 
 let tosses = function(){
     let m = document.getElementById('toss');
