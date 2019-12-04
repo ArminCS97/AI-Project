@@ -7,6 +7,7 @@ let Player = function (squareNum , playerId) {
 
 };
 
+let isMaxTurn = '';
 
 let drawThePlayer = ( squareID , playerName )=>{ // draws a player on a specific square
     let square0 = convertTextID_to_ij(squareID);
@@ -34,7 +35,7 @@ let drawThePlayer = ( squareID , playerName )=>{ // draws a player on a specific
     // the 4 lines of code above helps to solve the problem that would happen
     // when we wanted to move to squares 10k
 
-    let id2 = setInterval(myFrame2 , 1);
+    let id2 = setInterval(myFrame2 , 0.5);
     function myFrame2(){
         if (y_position >= yc)
             clearInterval(id2);
@@ -44,7 +45,7 @@ let drawThePlayer = ( squareID , playerName )=>{ // draws a player on a specific
         }
     }
 
-    let id = setInterval(myFrame , 1);
+    let id = setInterval(myFrame , 0.5);
     function myFrame() {
         if ( x_position >= xc)
             clearInterval(id);
@@ -71,7 +72,7 @@ let tossMin = 0 , tossMax = 0;
 let max = new Player(tossMax , 'Max');
 let min = new Player(tossMin,'Min');
 
-let tosses = function(){
+
     let m = document.getElementById('toss');
     let m2 = document.getElementById('toss2');
 
@@ -92,29 +93,30 @@ let tosses = function(){
         };
 
         m2.addEventListener("click", toss2, false);
-};
 
 
-let playersMover = function (player , Number) { // takes an object of type Player
-    player.squareNum += Number  ; // the number of the square to which this player will be transformed
+
+let playersMover = function (player , number) { // takes an object of type Player
+    player.squareNum += Number(number)  ; // the number of the square to which this player will be transformed
     player.draw();
-    setTimeout(function players_up_down_bringer1(){
-        players_up_down_bringer(player , Number)
-    }, 3000)
+
+    setTimeout(function () {
+        players_up_down_bringer(player);
+    } , 5000);
 };
 
-let players_up_down_bringer = function (player , Number){
+let players_up_down_bringer = function (player){
     // the codes below are to check if the player must be brought up or down
     let square = convertTextID_to_ij(player.squareNum); // the square in which the player is
 
     if ( square.goodPit === true){
-        player.squareNum = square.upTo;
+        player.squareNum = Number(square.upTo);
         player.draw();
     }
 
     if ( square.goodPit === false && square.pit === true){
-        player.squareNum = square.downTo;
+        player.squareNum = Number(square.downTo);
         player.draw()
     }
-};
 
+};

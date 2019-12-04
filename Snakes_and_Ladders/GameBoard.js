@@ -16,33 +16,63 @@ let createSquares = function(x , y , squareWidth , squareHeight , text , color )
     ctx.fillText(text.toString(), x + squareWidth/2, y + squareHeight/2);
 };
 
-let createCircles = function(x , y , squareWidth , squareHeight , goodPit, downTo , upTo ){
-    let text;
+let putNumberOnTriangles = function (x , y , squareWidth , squareHeight , number , color){
+    ctx.fillStyle = color.toString();
+    ctx.font = (squareHeight/2).toString() + "px arial";
+    if (color === 'yellow')
+        ctx.fillText(number.toString(), x + squareWidth, y + squareHeight/3);
+    else
+        ctx.fillText(number.toString(), x + squareWidth/3, y + squareHeight);
+};
 
-    let r = squareHeight/2;
-    let x1 = x + r;
-    let y1 = y + r;
 
-     ctx.beginPath();
-     ctx.arc(x1, y1, r, 0, 2 * Math.PI, false);
+
+let createTriangles = function(x , y , squareWidth , squareHeight , goodPit, downTo , upTo ){
+    // for each of the triangles we create a div tag
+
+    let triangle = document.createElement('DIV');
+    document.body.appendChild(triangle);
+
+    triangle.style.height = 0 + 'px';
+    triangle.style.width = 0 + 'px';
+    triangle.style.borderLeft = squareWidth / 2+ 'px' + ' solid transparent';
+    triangle.style.borderRight = squareWidth /2+ 'px'+ ' solid transparent';
+    triangle.style.position = 'absolute';
+
     if (goodPit === true){
-        text = 'To ' + upTo.toString();
-        ctx.fillStyle = 'yellow';
+        let i = squareWidth;
+        triangle.style.top = y + 17 + 'px';
+        triangle.style.left = x + 18 + 'px';
+        setInterval(myFrame , upTo);
+        function myFrame() {
+            if ( i === 0){
+                  i = squareWidth;
+            }
+            if ( i <= squareWidth ) {
+                i--;
+                triangle.style.borderBottom = i + 'px'+ ' solid yellow';
+            }
+        }
+        putNumberOnTriangles(x , y , squareWidth  ,squareHeight , upTo , 'orange')
     }
-    else { // goodPit === false and we have a bad pit by default
-        text = 'To ' + downTo.toString();
-        ctx.fillStyle = 'brown';
+
+    else{ // if goodPit === false
+        let i = squareWidth;
+        triangle.style.borderTop = squareWidth + 'px'+ ' solid red';
+        triangle.style.top = y + 20+ 'px';
+        triangle.style.left = x + 20 + 'px';
+        setInterval(myFrame , downTo);
+        function myFrame() {
+            if ( i === 0){
+                i = squareWidth;
+            }
+            if ( i <= squareWidth ) {
+                i--;
+                triangle.style.borderTop = i + 'px'+ ' solid red';
+            }
+        }
+        putNumberOnTriangles(x , y , squareWidth  ,squareHeight , downTo , 'darkred')
     }
-     ctx.fill();
-
-
-   // putting the text inside the circle
-    ctx.beginPath();
-    ctx.font = (squareHeight/3.5).toString() + "px arial";
-    ctx.fillStyle = 'black';
-    ctx.fillText(text.toString(), x, y1);
-    ctx.fill();
-
 };
 
 let generatingRandomColor = function () {
@@ -75,7 +105,7 @@ function GameSquares (xC , yC , color , text , squareW , squareH , pit , goodPit
         }
         else{
             this.up_or_down();
-            createCircles(this.x_coordinate , this.y_coordinate , this.squareWidth , this.squareHeigth , this.goodPit , this.downTo , this.upTo);
+            createTriangles(this.x_coordinate , this.y_coordinate , this.squareWidth , this.squareHeigth , this.goodPit , this.downTo , this.upTo);
         }
     }
 }
@@ -186,8 +216,10 @@ let arrayRunner = function (){
     }
 };
 
-
 arrayRunner();
+
+
+
 
 
 
