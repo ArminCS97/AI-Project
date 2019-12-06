@@ -60,11 +60,11 @@ let toPixelConverter = function ( number ){
 };
 
 
-// let showNumber = ()=>{
-//   let tossNumbers = [1,2,3,4,5,6];
-//   let index = Math.floor(Math.random()* 7 );
-//   return tossNumbers[index];
-// };
+let showNumber = ()=>{
+  let tossNumbers = [1,2,3,4,5,6];
+  let index = Math.floor(Math.random()* 7 );
+  return tossNumbers[index];
+};
 
 let die = function() {
     m.innerText = 'Max';
